@@ -9,6 +9,7 @@ use crate::{
 use chrono::prelude::*;
 use chrono::Duration;
 use flate2::{write::DeflateEncoder, Compression};
+use log::warn;
 use openssl::pkey::Private;
 use openssl::{rsa, x509};
 use snafu::Snafu;
@@ -339,7 +340,9 @@ impl ServiceProvider {
             reduce_xml_to_signed(response_xml, &sign_certs)
                 .map_err(|_e| Error::FailedToValidateSignature)?
         } else {
-            String::from(response_xml)
+            // Reject if idp has no signing certs
+            warn!("Rejecting SAML response because there are no IDP signing certificates. Possible request ID: {possible_request_ids:?}");
+            return Err(Error::FailedToValidateSignature);
         };
         let response: Response = reduced_xml
             .parse()
