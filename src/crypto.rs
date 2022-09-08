@@ -427,6 +427,9 @@ pub(crate) fn reduce_xml_to_signed(
     let mut xml = XmlParser::default().parse_string(xml_str)?;
     let mut root_elem = xml.get_root_element().ok_or(Error::XmlMissingRootElement)?;
 
+    use xmlsec::tree;
+    tree::xml_sec_add_ids(&mut xml, &mut root_elem, &["Id", "id", "ID"]);
+
     // collect ID attribute values and tell libxml about them
     collect_id_attributes(&mut xml)?;
 

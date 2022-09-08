@@ -20,6 +20,8 @@ mod keys;
 mod xmldsig;
 mod xmlsec_internal;
 
+pub(crate) mod tree;
+
 // exports
 pub use self::error::XmlSecError;
 pub use self::error::XmlSecResult;
