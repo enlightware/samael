@@ -23,6 +23,7 @@ pkg-config =  "^0.3.17"
 bindgen    = "^0.60.1"
 
 [dependencies]
+log = "0.4"
 openssl = "0.10"
 openssl-sys = "0.9"
 openssl-probe = "0.1.2"
